@@ -23,17 +23,26 @@ export default class extends Component {
     );
   }
 
-  handleCategorySelected = category => {
+  handleCategorySelect = category => {
     this.setState({
       category
     });
   };
 
-  handelExerciseSelected = id => {
+  handelExerciseSelect= id => {
     this.setState(({ exercises }) => ({
       exercise: exercises.find(ex => ex.id === id)
     }));
   };
+
+  handelExerciseCreate = exercise => {
+    this.setState (({exercises}) => ({
+      exercises: [
+        ...exercises,
+        exercise
+      ]
+    }))
+  }
 
   render() {
     const exercises = this.getExerciseByMuscle(),
@@ -41,19 +50,22 @@ export default class extends Component {
 
     return (
       <Fragment>
-        <Header />
+        <Header
+          muscles={muscles}
+          onExerciseCreate={this.handelExerciseCreate}
+        />
 
         <Exercises
           exercise={exercise}
           exercises={exercises}
           category={category}
-          onSelect={this.handelExerciseSelected}
+          onSelect={this.handelExerciseSelect}
         />
 
         <Footer
           category={category}
           muscles={muscles}
-          onSelect={this.handleCategorySelected}
+          onSelect={this.handleCategorySelect}
         />
       </Fragment>
     );
